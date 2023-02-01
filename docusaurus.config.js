@@ -73,6 +73,24 @@ const config = {
         },
       }),
     ],
+    // Redocusaurus config
+    [
+      'redocusaurus',
+      {
+        // Plugin Options for loading OpenAPI files
+        specs: [
+          {
+            spec: 'static/swagger.json',
+            id: 'using-custom-page',
+          },
+        ],
+        // Theme Options for modifying how redoc renders them
+        theme: {
+          // Change with your site colors
+          primaryColor: '#1890ff',
+        },
+      },
+    ],
   ],
 
   themeConfig:
@@ -153,6 +171,7 @@ const config = {
       },
     }),
     plugins: [addAliasPlugin, "docusaurus-plugin-sass"],
+    themes: ["docusaurus-theme-redoc"],
 };
 
 module.exports = config;
