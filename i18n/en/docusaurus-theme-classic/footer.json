@@ -9,7 +9,7 @@
   },
   "link.item.label.关于我们": {
     "message": "About Us",
-    "description": "The label of footer link with label=关于我们 linking to https://wekey.com/aboutus"
+    "description": "The label of footer link with label=关于我们 linking to https://wekey.com/about"
   },
   "link.item.label.联系我们": {
     "message": "Contact Us",

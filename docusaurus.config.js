@@ -34,7 +34,7 @@ const config = {
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'trustasia-com', // Usually your GitHub org/user name.
-  projectName: 'trustasia-com.github.io', // Usually your repo name.
+  projectName: 'docs', // Usually your repo name.
   deploymentBranch: 'gh-pages',
 
   onBrokenLinks: 'throw',
@@ -135,7 +135,7 @@ const config = {
           },
           {
             label: "关于我们",
-            href: "https://wekey.com/aboutus",
+            href: "https://wekey.com/about",
           },
           {
             label: "联系我们",
