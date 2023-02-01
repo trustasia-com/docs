@@ -1,0 +1,235 @@
+@use "@scss/underscore" as _;
+
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+
+@function url-friendly-color($colour) {
+  @return "%23" + str-slice("#{$colour}", 2, -1);
+}
+
+:root {
+  --ifm-color-primary: #2e8555;
+  --ifm-color-primary-dark: #29784c;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-light: #33925d;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-lightest: #3cad6e;
+  // --ifm-hover-overlay: rgba(93, 52, 242, 0.12);
+  --ifm-code-font-size: 95%;
+  --ifm-navbar-height: 64px;
+  --doc-sidebar-width: 340px !important;
+  --doc-sidebar-section-title: #c9c5d0;
+  --logto-border: #c4c7c7;
+  --ifm-menu-link-sublist-icon: url("/static/img/menu-link-sublist-icon.svg");
+  --ifm-menu-link-sublist-icon-active: url('data:image/svg+xml;charset=utf-8,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.60001 6.53333C7.80001 6.26667 8.20001 6.26667 8.40001 6.53333L10.4 9.2C10.6472 9.52962 10.412 10 10 10L6 10C5.58798 10 5.35279 9.52962 5.6 9.2L7.60001 6.53333Z" fill="#{url-friendly-color(#5d34f2)}"/></svg>');
+  --ifm-link-hover-decoration: none;
+
+  --padding-max-width: 100px;
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme="dark"] {
+  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary-dark: #21af90;
+  --ifm-color-primary-darker: #1fa588;
+  --ifm-color-primary-darkest: #1a8870;
+  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary-lighter: #32d8b4;
+  --ifm-color-primary-lightest: #4fddbf;
+  --ifm-hover-overlay: rgba(202, 190, 255, 0.12);
+  --ifm-menu-link-sublist-icon-active: url('data:image/svg+xml;charset=utf-8,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.60001 6.53333C7.80001 6.26667 8.20001 6.26667 8.40001 6.53333L10.4 9.2C10.6472 9.52962 10.412 10 10 10L6 10C5.58798 10 5.35279 9.52962 5.6 9.2L7.60001 6.53333Z" fill="#{url-friendly-color(#7958ff)}"/></svg>');
+  --doc-sidebar-section-title: #777;
+  --logto-border: #5c5f60;
+}
+
+body #__docusaurus {
+  min-height: 100vh;
+}
+
+// Top Nav
+.navbar {
+  box-shadow: 0px 4px 8px rgba(66, 41, 159, 0.08);
+}
+
+.navbar__brand {
+  position: relative;
+  margin-right: _.unit(2);
+}
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+
+  img {
+    height: 30px;
+  }
+}
+
+.navbar__item {
+  font-size: 16px;
+  line-height: 24px;
+
+  &.navbar__link {
+    font-weight: 600;
+  }
+}
+
+// Side Bar
+.sidebar-section {
+  color: var(--doc-sidebar-section-title);
+  padding: var(--ifm-menu-link-padding-vertical)
+    var(--ifm-menu-link-padding-horizontal);
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sidebar-section > a.menu__link {
+  color: var(--doc-sidebar-section-title);
+  padding: 0;
+  pointer-events: none;
+}
+
+.sidebar-section:not(:first-child) {
+  margin-top: calc(var(--ifm-menu-link-padding-vertical) * 2);
+}
+
+.menu__list {
+  .menu__list {
+    margin-left: calc(var(--ifm-menu-link-padding-horizontal) * -1);
+  }
+}
+
+.menu__link {
+  word-break: break-word;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+// overwrite default link hover color.
+a.menu__link:not(.menu__link--active):hover {
+  color: var(--ifm-menu-color);
+}
+
+.menu__list-item-collapsible {
+  align-items: center;
+
+  & > .menu__caret {
+    order: 1;
+    padding: 0;
+    margin-right: _.unit(1);
+    margin-left: var(--ifm-menu-link-padding-horizontal);
+
+    &::before {
+      height: 1rem;
+      width: 1rem;
+      background: var(--ifm-menu-link-sublist-icon) 50% / 1rem 1rem;
+    }
+  }
+
+  & > .menu__link--active + .menu__caret::before {
+    background: var(--ifm-menu-link-sublist-icon-active) 50% / 1rem 1rem;
+  }
+
+  & > .menu__link:not(:last-child) {
+    order: 2;
+    padding-left: 0;
+  }
+}
+
+.menu__link--sublist-caret {
+  &::before {
+    content: "";
+    margin-right: _.unit(1);
+    background: var(--ifm-menu-link-sublist-icon) 50% / 1rem 1rem;
+    filter: var(--ifm-menu-link-sublist-icon-filter);
+    height: 1rem;
+    width: 1rem;
+    transform: rotate(180deg);
+    transition: transform var(--ifm-transition-fast) linear;
+  }
+
+  &::after {
+    content: none;
+  }
+
+  &.menu__link--active {
+    &::before {
+      background: var(--ifm-menu-link-sublist-icon-active) 50% / 1rem 1rem;
+    }
+  }
+}
+
+.menu__list-item--collapsed {
+  .menu__link--sublist-caret::before {
+    transform: rotateZ(90deg);
+  }
+}
+
+@include _.sidebar-category-padding(2);
+@include _.sidebar-category-padding(3);
+@include _.sidebar-category-padding(4);
+@include _.sidebar-category-padding(5);
+
+@include _.sidebar-item-link-padding(2);
+@include _.sidebar-item-link-padding(3);
+@include _.sidebar-item-link-padding(4);
+@include _.sidebar-item-link-padding(5);
+
+// Docs
+.docusaurus-highlight-code-line {
+  background-color: rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+main {
+  padding-bottom: var(--ifm-spacing-horizontal);
+  & > .container {
+    padding: calc(var(--ifm-spacing-horizontal) * 2);
+  }
+}
+
+[data-theme="dark"] .docusaurus-highlight-code-line {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 997px) {
+  :root {
+    --padding-max-width: 20px;
+  }
+
+  .navbar__logo {
+    height: 30px;
+  }
+}
+
+@media (min-width: 997px) {
+  .navbar__brand {
+    .navbar__logo {
+      margin-right: _.unit(6);
+    }
+
+    &::after {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      content: "";
+      background-color: var(--logto-border);
+      width: 1px;
+      height: 16px;
+      transform: translateY(-8px);
+    }
+  }
+
+  .theme-doc-sidebar-container nav {
+    padding: var(--ifm-navbar-padding-horizontal) _.unit(3);
+  }
+}

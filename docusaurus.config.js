@@ -1,8 +1,23 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
+const path = require("path");
+
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+
+/** @type {import('@docusaurus/types').PluginConfig} */
+const addAliasPlugin = () => ({
+  name: "add-alias-plugin",
+  configureWebpack: () => ({
+    resolve: {
+      alias: {
+        // '@components': path.resolve(__dirname, './src/components'),
+        "@scss": path.resolve(__dirname, "./src/scss"),
+      },
+    },
+  }),
+});
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -20,6 +35,7 @@ const config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'trustasia-com', // Usually your GitHub org/user name.
   projectName: 'docs', // Usually your repo name.
+  deploymentBranch: 'gh-pages',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -53,7 +69,7 @@ const config = {
             'https://github.com/trustasia-com/docs/tree/master/blog',
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve('./src/scss/custom.scss'),
         },
       }),
     ],
@@ -105,7 +121,7 @@ const config = {
       footer: {
         logo: {
           alt: "Logo",
-          src: "img/trustasia.svg",
+          src: "/img/trustasia.svg",
         },
         style: 'dark',
         links: [
@@ -136,6 +152,7 @@ const config = {
         darkTheme: darkCodeTheme,
       },
     }),
+    plugins: [addAliasPlugin, "docusaurus-plugin-sass"],
 };
 
 module.exports = config;
