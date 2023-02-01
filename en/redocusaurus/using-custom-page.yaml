@@ -1,0 +1,2681 @@
+swagger: '2.0'
+info:
+  description: This is a sample server celler server.
+  title: ta-wekey2/api API
+  contact: {}
+  version: '1.0'
+basePath: /ta-wekey2
+paths:
+  /admin/login-as-user:
+    get:
+      description: 以用户身份登录
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 超级管理员
+      summary: 以用户身份登录
+      parameters:
+        - type: string
+          name: email
+          in: query
+        - type: string
+          name: phone_number
+          in: query
+        - type: string
+          name: username
+          in: query
+        - type: string
+          name: zone_slug
+          in: query
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /apps:
+    get:
+      description: 获取app列表
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 获取app列表
+      parameters:
+        - type: string
+          description: 名字
+          name: name
+          in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.QueryAppItemResp'
+    post:
+      description: 添加应用
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 添加应用
+      parameters:
+        - description: add app
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.AddAppReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /apps/:appID:
+    get:
+      description: 应用详情
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 应用详情
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/definitions/types.AppInfoResp'
+    delete:
+      description: 删除APP
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 删除APP
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /apps/:appID/advance:
+    put:
+      description: 编辑app高级设置
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 编辑app高级设置
+      parameters:
+        - description: edit app advance
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.EditAppAdvanceReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /apps/:appID/basic:
+    put:
+      description: 编辑app基本信息
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 编辑app基本信息
+      parameters:
+        - description: edit app basic
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.EditAppBasicReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /apps/:appID/conns/:provider/:identifier/open:
+    put:
+      description: 关闭应用身份源
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 关闭应用身份源
+      parameters:
+        - description: add 身份源
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.AppIDPStateReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /apps/:appID/grant:
+    put:
+      description: 编辑app授权信息
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 编辑app授权信息
+      parameters:
+        - description: edit app grant
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.EditAppGrantReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /apps/:appID/idps:
+    get:
+      description: 应用身份源列表
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 应用身份源列表
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.AppIdpsResp'
+  /apps/:appID/resources:
+    get:
+      description: 应用资源组列表
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 应用资源组列表
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.AppResourcesResp'
+  /apps/:appID/resources/:resourceID/close:
+    put:
+      description: 关闭应用资源组
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 关闭应用资源组
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /apps/:appID/resources/:resourceID/open:
+    put:
+      description: 开启应用资源组
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 开启应用资源组
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /apps/:appID/secret:
+    put:
+      description: 轮换密钥
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 轮换密钥
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /conns:
+    get:
+      description: 获取已配置身份源列表，此接口不支持分页
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 连接源管理
+      summary: 获取已配置身份源列表
+      parameters:
+        - type: string
+          description: 类型database social enterprise passwordless webauthn
+          name: type
+          in: query
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.IdpConfigsResp'
+  /conns/:provider:
+    post:
+      description: 添加身份源,所有的身份源都是这个接口添加，只是参数可能不同
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 连接源管理
+      summary: 添加身份源
+      parameters:
+        - description: add 身份源
+          name: name
+          in: body
+          required: true
+          schema:
+            type: object
+            additionalProperties: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /conns/:provider/:identifier:
+    put:
+      description: 编辑身份源信息
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 连接源管理
+      summary: 编辑身份源信息
+      parameters:
+        - description: 编辑 身份源
+          name: name
+          in: body
+          required: true
+          schema:
+            type: object
+            additionalProperties: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+    delete:
+      description: 删除身份源
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 连接源管理
+      summary: 删除身份源
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /conns/:provider/:identifier/apps:
+    get:
+      description: 获取应用源关联app状态
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 连接源管理
+      summary: 获取应用源关联app状态
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.IdpAppsResp'
+  /conns/:provider/:identifier/apps/:appId/close:
+    put:
+      description: 关闭应用身份源
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 连接源管理
+      summary: 关闭应用身份源
+      parameters:
+        - description: 关闭 身份源
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.IdpConfigAppStateReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /conns/:provider/:identifier/apps/:appId/open:
+    put:
+      description: 开启应用身份源
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 连接源管理
+      summary: 开启应用身份源
+      parameters:
+        - description: add 身份源
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.IdpConfigAppStateReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /conns/:provider/:identifier/info:
+    get:
+      description: 身份源配置详情
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 连接源管理
+      summary: 身份源配置详情
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /conns/database/:identifier/password-rotation:
+    put:
+      description: 编辑数据库身份源的密码轮换
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 连接源管理
+      summary: 编辑数据库身份源的密码轮换
+      parameters:
+        - description: 编辑数据库身份源的密码轮换
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.EditIdpDatabasePasswordRotation'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /conns/database/:identifier/password-strength:
+    put:
+      description: 编辑数据库身份源的密码强度
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 连接源管理
+      summary: 编辑数据库身份源的密码强度
+      parameters:
+        - description: 编辑数据库身份源的密码强度
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.EditIdpDatabasePasswordStrength'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /feedbacks:
+    post:
+      description: 添加反馈
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 反馈
+      summary: 添加反馈
+      parameters:
+        - description: 添加反馈
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.AddFeedbackReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /permissions:
+    get:
+      description: 查询权限
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 查询权限
+      parameters:
+        - type: string
+          description: 资源组id
+          name: resourceID
+          in: query
+          required: true
+        - type: string
+          description: 权限
+          name: scope
+          in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.QueryPermissionResp'
+    post:
+      description: 添加权限
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 添加权限
+      parameters:
+        - description: add permission
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.AddPermissionReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /permissions/:permissionID:
+    delete:
+      description: 删除权限
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 删除权限
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /resources:
+    get:
+      description: 查询资源组
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 查询资源组
+      parameters:
+        - type: string
+          description: 名字
+          name: name
+          in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.QueryResourceResp'
+    post:
+      description: 添加资源组
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 添加资源组
+      parameters:
+        - description: add resource
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.AddResourceReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /resources/:id/apps:
+    get:
+      description: 资源组的APP列表
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 资源组的APP列表
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.ResourceAppsResp'
+  /resources/:resourceID:
+    get:
+      description: 资源组详情
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 资源组详情
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/definitions/types.ResourceInfoResp'
+    put:
+      description: 修改资源组
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 修改资源组
+      parameters:
+        - description: edit resource
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.EditResourceReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+    delete:
+      description: 删除资源组
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 删除资源组
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /resources/:resourceID/apps/:appID/close:
+    put:
+      description: 关闭资源组应用
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 关闭资源组应用
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /resources/:resourceID/apps/:appID/open:
+    put:
+      description: 开启资源组应用
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 应用管理
+      summary: 开启资源组应用
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /roles:
+    get:
+      description: 查询角色
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 查询角色
+      parameters:
+        - type: string
+          description: 名字
+          name: name
+          in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.QueryRoleResp'
+    post:
+      description: 添加角色
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 添加角色
+      parameters:
+        - description: add role
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.RoleCreateReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /roles/:roleID:
+    get:
+      description: 角色详情
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 角色详情
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/definitions/types.RoleInfoResp'
+    put:
+      description: 修改角色
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 修改角色
+      parameters:
+        - description: edit role
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.RoleUpdateReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+    delete:
+      description: 删除角色
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 删除角色
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /roles/:roleID/permissions:
+    get:
+      description: 查询角色权限
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 查询角色权限
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.RolePermissionResp'
+    post:
+      description: 为角色添加权限
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 为角色添加权限
+      parameters:
+        - description: add role permission
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.RoleAddPermissionReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /roles/:roleID/permissions/:permissionID:
+    delete:
+      description: 删除角色权限
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 删除角色权限
+      parameters:
+        - description: del role permission
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.RoleRevokePermissionReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /roles/:roleID/query-permissions:
+    get:
+      description: 查询角色可添加的权限
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 查询角色可添加的权限
+      parameters:
+        - type: string
+          description: 资源组id
+          name: resourceID
+          in: query
+          required: true
+        - type: string
+          description: 权限
+          name: scope
+          in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.RoleQueryPermissionItemResp'
+  /roles/:roleID/query-resources:
+    get:
+      description: 查询资源组
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 查询资源组
+      parameters:
+        - type: string
+          description: 名字
+          name: name
+          in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.RoleQueryResourceResp'
+  /roles/:roleID/query-users:
+    get:
+      description: 查询角色可添加的用户
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 查询角色可添加的用户
+      parameters:
+        - type: string
+          name: search
+          in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.RoleQueryUserResp'
+  /roles/:roleID/users:
+    get:
+      description: 查询角色用户
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 查询角色用户
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    allOf:
+                      - $ref: '#/definitions/types.BaseQueryResp'
+                      - type: object
+                        properties:
+                          list:
+                            type: array
+                            items:
+                              $ref: '#/definitions/types.RoleUserResp'
+  /roles/roleID/users:
+    post:
+      description: 为角色添加用户
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 为角色添加用户
+      parameters:
+        - type: string
+          description: 用户ID
+          name: id
+          in: path
+          required: true
+        - description: add user
+          name: req
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.RoleAssignUsersReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /upload:
+    post:
+      description: 上传文件
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      tags:
+        - 文件上传
+      summary: 上传文件
+      parameters:
+        - type: string
+          description: 类型:zone/user/app/conn
+          name: type
+          in: formData
+          required: true
+        - type: string
+          description: 文件类型:img/text/other
+          name: file_type
+          in: formData
+          required: true
+        - type: string
+          description: 种类:avatar/logo/other
+          name: class
+          in: formData
+          required: true
+        - type: file
+          description: 文件
+          name: file
+          in: formData
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/definitions/types.UploadResp'
+  /users:
+    get:
+      description: 查询用户列表
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 查询用户列表
+      parameters:
+        - type: integer
+          name: page
+          in: query
+          required: true
+        - type: string
+          name: search
+          in: query
+        - type: integer
+          description: size
+          name: size
+          in: query
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    allOf:
+                      - $ref: '#/definitions/types.BaseQueryResp'
+                      - type: object
+                        properties:
+                          list:
+                            type: array
+                            items:
+                              $ref: '#/definitions/types.QueryUserItemsResp'
+    post:
+      description: 添加用户
+      tags:
+        - 用户管理
+      summary: 添加用户
+      parameters:
+        - description: add user
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.UserCreateReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /users/:userID:
+    get:
+      description: 用户详情
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 用户详情
+      parameters:
+        - type: string
+          description: 用户ID
+          name: id
+          in: path
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/definitions/types.UserInfoResp'
+    delete:
+      description: 删除用户
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 删除用户
+      parameters:
+        - type: string
+          description: 用户ID
+          name: id
+          in: path
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /users/:userID/apps:
+    get:
+      description: 查询用户授权应用
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 查询用户授权应用
+      parameters:
+        - type: string
+          description: 用户id
+          name: id
+          in: path
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/definitions/types.UserAppInfoResp'
+  /users/:userID/apps/:appID:
+    delete:
+      description: 撤销用户授权的应用
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 撤销用户授权的应用
+      parameters:
+        - type: string
+          description: 用户ID
+          name: id
+          in: path
+          required: true
+        - type: string
+          description: 应用id
+          name: aid
+          in: path
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /users/:userID/block:
+    put:
+      description: 封禁用户
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 封禁用户
+      parameters:
+        - type: string
+          description: 用户ID
+          name: id
+          in: path
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /users/:userID/metadata:
+    put:
+      description: 编辑用户metadata
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 编辑用户metadata
+      parameters:
+        - type: string
+          description: 用户ID
+          name: id
+          in: path
+          required: true
+        - description: edit user metadata
+          name: req
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.UserChangeMetadataReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /users/:userID/password:
+    put:
+      description: 修改用户密码
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 修改用户密码
+      parameters:
+        - type: string
+          description: 用户ID
+          name: id
+          in: path
+          required: true
+        - description: edit user password
+          name: req
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.UpdateUserPasswordReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /users/:userID/picture:
+    put:
+      description: 更新用户头像
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 更新用户头像
+      parameters:
+        - type: string
+          description: 用户ID
+          name: id
+          in: path
+          required: true
+        - description: 更新用户头像
+          name: req
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.UpdateUserPictureReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /users/:userID/profile:
+    put:
+      description: 更新用户基础信息
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 更新用户基础信息
+      parameters:
+        - type: string
+          description: 用户ID
+          name: id
+          in: path
+          required: true
+        - description: 更新用户基础信息
+          name: req
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.UpdateUserProfileReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /users/:userID/query-roles:
+    get:
+      description: 查询用户可添加角色
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 查询用户可添加角色
+      parameters:
+        - type: string
+          description: 名字
+          name: name
+          in: query
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.UserQueryRolesItemResp'
+  /users/:userID/roles:
+    get:
+      description: 查询用户已添加的角色
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 查询用户已添加的角色
+      parameters:
+        - type: string
+          description: 用户id
+          name: id
+          in: path
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/definitions/types.UserRoleInfoResp'
+    post:
+      description: 添加用户角色
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 添加用户角色
+      parameters:
+        - type: string
+          description: 用户ID
+          name: id
+          in: path
+          required: true
+        - description: add user
+          name: req
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.UserAssignRolesReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /users/:userID/roles/:roleID:
+    delete:
+      description: 删除用户角色
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 删除用户角色
+      parameters:
+        - type: string
+          description: 用户ID
+          name: id
+          in: path
+          required: true
+        - type: string
+          description: 角色ID
+          name: rid
+          in: path
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /users/:userID/unblock:
+    put:
+      description: 解封用户
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 用户管理
+      summary: 解封用户
+      parameters:
+        - type: string
+          description: 用户ID
+          name: id
+          in: path
+          required: true
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /zones:
+    get:
+      description: 获取空间列表
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 空间zone
+      summary: 获取用户空间列表
+      responses:
+        '200':
+          description: 空间列表
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.ZoneListItemResp'
+    post:
+      description: 创建空间
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 空间zone
+      summary: 创建空间
+      parameters:
+        - description: 创建应用
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.ZoneCreateReq'
+      responses:
+        '200':
+          description: 创建应用
+          schema:
+            $ref: '#/definitions/message.Message'
+  /zones/basic:
+    get:
+      description: 获取空间基本信息
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 空间zone
+      summary: 获取空间基本信息
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/definitions/types.ZoneInfoBasicResp'
+    put:
+      description: 编辑空间基础信息
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 空间zone
+      summary: 编辑空间基础信息
+      parameters:
+        - description: 编辑空间基本信息
+          name: name
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.ZoneEditBasicReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/message.Message'
+  /zones/default-zone:
+    post:
+      description: 设置默认空间
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 空间zone
+      summary: 设置默认空间
+      responses:
+        '200':
+          description: 设置默认空间
+          schema:
+            $ref: '#/definitions/message.Message'
+  /zones/exists:
+    get:
+      description: 检测空间是否存在
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 空间zone
+      summary: 检测空间是否存在
+      parameters:
+        - description: 检测空间是否存在
+          name: id
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/types.ZoneExistsReq'
+      responses:
+        '200':
+          description: 检测空间是否存在
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/definitions/types.ZoneExistsResp'
+  /zones/members:
+    get:
+      description: 获取空间成员信息
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 空间zone
+      summary: 获取空间成员信息
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/definitions/types.ZoneInfoMemberItemResp'
+  /zones/secrets:
+    get:
+      description: 获取空间密钥
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 空间zone
+      summary: 获取空间密钥
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/definitions/types.ZoneInfoSecretsResp'
+    delete:
+      description: 撤销空间secret
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 空间zone
+      summary: 撤销空间secret
+      responses:
+        '200':
+          description: 撤销空间secret
+          schema:
+            $ref: '#/definitions/message.Message'
+  /zones/state:
+    get:
+      description: 空间状态信息
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - 空间zone
+      summary: 空间状态
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/message.Message'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/definitions/types.ZoneStateResp'
+definitions:
+  message.Message:
+    type: object
+    properties:
+      code: {}
+      data: {}
+      error:
+        type: string
+  types.AddAppReq:
+    type: object
+    required:
+      - name
+      - type
+    properties:
+      name:
+        description: app名字
+        type: string
+      type:
+        description: 类型 原生Native,单页SPA,传统Traditional，后端服务MachineToMachine
+        type: string
+  types.AddFeedbackReq:
+    type: object
+    required:
+      - connectable
+      - content
+      - images
+      - type
+    properties:
+      connectable:
+        type: boolean
+      contact:
+        type: string
+      content:
+        type: string
+      images:
+        type: array
+        items:
+          type: string
+      type:
+        description: 类型product support other
+        type: string
+  types.AddPermissionReq:
+    type: object
+    required:
+      - description
+      - resource_id
+      - scope
+    properties:
+      description:
+        description: 描述
+        type: string
+      resource_id:
+        description: 资源组id
+        type: string
+      scope:
+        description: 权限
+        type: string
+  types.AddResourceReq:
+    type: object
+    required:
+      - audience
+      - name
+    properties:
+      audience:
+        description: '''资源组地址,当前空间唯一'''
+        type: string
+      name:
+        description: 名字
+        type: string
+  types.AppIDPStateReq:
+    type: object
+    required:
+      - appID
+      - identifier
+      - provider
+    properties:
+      appID:
+        type: string
+      identifier:
+        description: 配置id
+        type: string
+      provider:
+        description: 身份源/github/ldap/saml/...
+        type: string
+  types.AppIdpsResp:
+    type: object
+    properties:
+      identifier:
+        description: 唯一标识
+        type: string
+      logo:
+        description: logo
+        type: string
+      name:
+        description: 身份源名字
+        type: string
+      provider:
+        description: 身份源标识
+        type: string
+      status:
+        description: 状态,0关闭，1开启
+        type: integer
+      type:
+        description: 类型database,social,enterprise,passwordless,webauthn
+        type: string
+  types.AppInfoResp:
+    type: object
+    properties:
+      access_token_expires:
+        description: access_token 过期时间
+        type: integer
+      app_id:
+        description: basic
+        type: string
+      cert_pem:
+        description: 证书
+        type: string
+      cert_pem_id:
+        description: 证书id
+        type: string
+      client_secret:
+        description: client secret
+        type: string
+      description:
+        description: app 描述
+        type: string
+      grant_types:
+        description: 高级设置
+        type: array
+        items:
+          type: string
+      id_token_expires:
+        description: ID Token 过期时间
+        type: integer
+      json_web_key:
+        description: JSON Web Key
+        type: string
+      login_callback_urls:
+        description: 登录回调urls
+        type: array
+        items:
+          type: string
+      login_url:
+        description: 授权配置
+        type: string
+      logo:
+        description: app logo
+        type: string
+      logout_callback_urls:
+        description: 登出回调urls
+        type: array
+        items:
+          type: string
+      name:
+        description: app 名字
+        type: string
+      oauth_authorize:
+        description: 端点信息
+        type: string
+      oauth_token:
+        description: OAuth Token
+        type: string
+      oauth_user_info:
+        description: OAuth User Info
+        type: string
+      openid_config:
+        description: OpenID Config
+        type: string
+      refresh_token_expires:
+        description: refresh token 过期时间
+        type: integer
+      saml_protocol:
+        description: SAML Protocol
+        type: string
+      sign_algo:
+        description: 签名算法
+        type: string
+      smal_metadata:
+        description: SAML Metadata
+        type: string
+  types.AppResourcesResp:
+    type: object
+    properties:
+      audience:
+        description: audience
+        type: string
+      id:
+        description: id
+        type: string
+      name:
+        description: resource name
+        type: string
+      status:
+        description: 0关闭，1开启
+        type: integer
+  types.BaseQueryResp:
+    type: object
+    properties:
+      list:
+        description: 数据列表
+      total:
+        description: 总数据
+        type: integer
+  types.EditAppAdvanceReq:
+    type: object
+    required:
+      - grant_types
+      - sign_algo
+    properties:
+      grant_types:
+        description: 授权类型
+        type: array
+        items:
+          type: string
+      sign_algo:
+        description: 签名算法HS256 RS256
+        type: string
+  types.EditAppBasicReq:
+    type: object
+    required:
+      - logo
+      - name
+    properties:
+      description:
+        description: app描述
+        type: string
+      logo:
+        description: app的logo
+        type: string
+      name:
+        description: app名字
+        type: string
+  types.EditAppGrantReq:
+    type: object
+    required:
+      - access_token_expires
+      - id_token_expires
+      - login_url
+      - refresh_token_expires
+    properties:
+      access_token_expires:
+        description: access_token 过期时间
+        type: integer
+      id_token_expires:
+        description: ID Token 过期时间
+        type: integer
+      login_url:
+        description: 发起登录uri
+        type: string
+      refresh_token_expires:
+        description: refresh token 过期时间
+        type: integer
+      sign_in_callback_urls:
+        description: 登录回调urls
+        type: array
+        items:
+          type: string
+      sign_out_callback_urls:
+        description: 登出回调urls
+        type: array
+        items:
+          type: string
+  types.EditIdpDatabasePasswordRotation:
+    type: object
+    required:
+      - password_dic
+      - password_dic_enable
+    properties:
+      password_dic:
+        description: 密码字典
+        type: array
+        items:
+          type: string
+      password_dic_enable:
+        description: 密码字典开关
+        type: boolean
+  types.EditIdpDatabasePasswordStrength:
+    type: object
+    required:
+      - password_length
+      - password_policy
+    properties:
+      password_length:
+        description: 密码长度
+        type: integer
+      password_policy:
+        description: 密码策略
+        type: string
+  types.EditResourceReq:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        description: 名字
+        type: string
+  types.IdpAppsResp:
+    type: object
+    properties:
+      app_id:
+        description: 应用id
+        type: string
+      description:
+        description: 应用描述
+        type: string
+      idp_status:
+        description: 状态，0代表关，1代表开
+        type: integer
+      logo:
+        description: 应用logo
+        type: string
+      name:
+        description: 应用名
+        type: string
+  types.IdpConfigAppStateReq:
+    type: object
+    required:
+      - appID
+      - identifier
+      - provider
+    properties:
+      appID:
+        type: string
+      identifier:
+        description: 配置id
+        type: string
+      provider:
+        description: 身份源/github/ldap/saml/...
+        type: string
+  types.IdpConfigsResp:
+    type: object
+    properties:
+      description:
+        description: idp 描述
+        type: string
+      enabled_app_count:
+        description: 启用数量
+        type: integer
+      id:
+        description: id
+        type: string
+      identifier:
+        description: identifier
+        type: string
+      logo:
+        description: icon
+        type: string
+      name:
+        description: 身份源名字
+        type: string
+      provider:
+        description: provider
+        type: string
+  types.QueryAppItemResp:
+    type: object
+    properties:
+      app_id:
+        description: app id
+        type: string
+      login_url:
+        description: 发起登录uri
+        type: string
+      logo:
+        description: logo
+        type: string
+      name:
+        description: 名字
+        type: string
+  types.QueryPermissionResp:
+    type: object
+    properties:
+      description:
+        description: 描述
+        type: string
+      id:
+        description: 权限id
+        type: string
+      scope:
+        description: 权限
+        type: string
+  types.QueryResourceResp:
+    type: object
+    properties:
+      audience:
+        description: API Audience
+        type: string
+      id:
+        description: id
+        type: string
+      name:
+        description: 名字
+        type: string
+      type:
+        description: 类型system系统，custom为用户自定义的，系统资源组不可做任何写操作
+        type: string
+  types.QueryRoleResp:
+    type: object
+    properties:
+      created_at:
+        description: 创建时间
+        type: string
+      description:
+        description: 描述
+        type: string
+      id:
+        type: string
+      name:
+        description: 名字
+        type: string
+  types.QueryUserItemsResp:
+    type: object
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      idp_id:
+        type: string
+      idp_identifier:
+        type: string
+      idp_name:
+        type: string
+      idp_provider:
+        type: string
+      last_login_at:
+        description: 上次登录时间
+        type: string
+      login_count:
+        type: integer
+      phone_number:
+        type: string
+      picture:
+        description: 头像
+        type: string
+      status:
+        description: 激活状态，0未激活，1已激活
+        type: integer
+      username:
+        type: string
+  types.ResourceAppsResp:
+    type: object
+    properties:
+      app_id:
+        type: string
+      name:
+        type: string
+      status:
+        description: 是否已开启0关闭，1开启
+        type: integer
+  types.ResourceInfoResp:
+    type: object
+    properties:
+      audience:
+        description: 唯一标识
+        type: string
+      id:
+        description: id
+        type: string
+      name:
+        description: 名字
+        type: string
+      type:
+        description: 类型system系统，custom为用户自定义的，系统资源组不可做任何写操作
+        type: string
+  types.RoleAddPermissionReq:
+    type: object
+    required:
+      - permission_ids
+    properties:
+      permission_ids:
+        description: 权限ids
+        type: array
+        items:
+          type: string
+  types.RoleAssignUsersReq:
+    type: object
+    required:
+      - user_ids
+    properties:
+      user_ids:
+        type: array
+        items:
+          type: string
+  types.RoleCreateReq:
+    type: object
+    required:
+      - description
+      - name
+    properties:
+      description:
+        description: 描述
+        type: string
+      name:
+        description: 名字
+        type: string
+  types.RoleInfoResp:
+    type: object
+    properties:
+      description:
+        description: 描述
+        type: string
+      id:
+        description: ID
+        type: string
+      name:
+        description: 名字
+        type: string
+  types.RolePermissionResp:
+    type: object
+    properties:
+      permission_description:
+        description: 描述
+        type: string
+      permission_id:
+        description: 权限id
+        type: string
+      permission_scope:
+        description: scope
+        type: string
+      resource_audience:
+        description: '''资源组地址,当前空间唯一'''
+        type: string
+      resource_id:
+        description: 资源组id
+        type: string
+      resource_name:
+        description: 名字
+        type: string
+  types.RoleQueryPermissionItemResp:
+    type: object
+    properties:
+      description:
+        description: 描述
+        type: string
+      id:
+        description: 权限id
+        type: string
+      scope:
+        description: 权限
+        type: string
+  types.RoleQueryResourceResp:
+    type: object
+    properties:
+      audience:
+        description: API Audience
+        type: string
+      editable:
+        description: 是否可编辑
+        type: boolean
+      id:
+        description: id
+        type: string
+      name:
+        description: 名字
+        type: string
+      type:
+        description: 类型0用户资源组，1为系统资源组，系统资源组不可做任何写操作
+        type: integer
+  types.RoleQueryUserResp:
+    type: object
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      nickname:
+        type: string
+      phone_number:
+        type: string
+      picture:
+        description: 头像
+        type: string
+      username:
+        type: string
+  types.RoleRevokePermissionReq:
+    type: object
+    required:
+      - permissionID
+      - roleID
+    properties:
+      permissionID:
+        description: 权限id
+        type: string
+      roleID:
+        description: 角色id
+        type: string
+  types.RoleUpdateReq:
+    type: object
+    required:
+      - description
+      - name
+    properties:
+      description:
+        description: 描述
+        type: string
+      name:
+        description: 名字
+        type: string
+  types.RoleUserResp:
+    type: object
+    properties:
+      email:
+        description: 邮箱
+        type: string
+      nickname:
+        description: 昵称
+        type: string
+      picture:
+        description: 头像
+        type: string
+      user_id:
+        description: 用户id
+        type: string
+      username:
+        description: username
+        type: string
+  types.UpdateUserPasswordReq:
+    type: object
+    required:
+      - password
+    properties:
+      password:
+        description: 密码,最少6位，后续会修改位加密传输
+        type: string
+  types.UpdateUserPictureReq:
+    type: object
+    required:
+      - picture
+    properties:
+      picture:
+        description: 头像
+        type: string
+  types.UpdateUserProfileReq:
+    type: object
+    required:
+      - email
+      - nickname
+      - phone_number
+    properties:
+      email:
+        description: 邮箱
+        type: string
+      nickname:
+        description: 昵称
+        type: string
+      phone_number:
+        description: 电话号码
+        type: string
+  types.UploadResp:
+    type: object
+    properties:
+      key:
+        description: key
+        type: string
+      url:
+        description: 访问url
+        type: string
+  types.UserAppInfoResp:
+    type: object
+    properties:
+      app_id:
+        description: app id
+        type: string
+      logo:
+        description: logo
+        type: string
+      name:
+        description: 应用名字
+        type: string
+  types.UserAssignRolesReq:
+    type: object
+    required:
+      - role_ids
+    properties:
+      role_ids:
+        type: array
+        items:
+          type: string
+  types.UserChangeMetadataReq:
+    type: object
+    required:
+      - app_metadata
+      - user_metadata
+    properties:
+      app_metadata:
+        description: 应用metadata
+      user_metadata:
+        description: 用户metadata
+  types.UserCreateReq:
+    type: object
+    required:
+      - password
+    properties:
+      email:
+        description: 邮箱
+        type: string
+      idp_id:
+        description: connections
+        type: string
+      password:
+        description: 密码，加密之后的密码
+        type: string
+      phone_number:
+        description: 手机号
+        type: string
+      username:
+        description: 用户名
+        type: string
+  types.UserInfoResp:
+    type: object
+    properties:
+      address:
+        description: 地址
+        type: string
+      app_metadata:
+        description: 应用metadata
+        type: array
+        items:
+          type: integer
+      birthdate:
+        description: 生日
+        type: string
+      created_at:
+        description: 注册时间
+        type: string
+      email:
+        description: 邮箱
+        type: string
+      email_verified:
+        description: 邮箱是否验证
+        type: boolean
+      family_name:
+        description: 姓
+        type: string
+      gender:
+        description: 性别,0未设置，1男，2女
+        type: integer
+      given_name:
+        description: 名
+        type: string
+      id:
+        description: 基础信息
+        type: string
+      idp_name:
+        description: idp
+        type: string
+      last_login_at:
+        description: 上次登录时间
+        type: string
+      last_login_ip:
+        description: 上次登录ip
+        type: string
+      locale:
+        description: 区域
+        type: string
+      login_count:
+        description: 登录总次数
+        type: integer
+      name:
+        description: 名字
+        type: string
+      nickname:
+        description: 昵称
+        type: string
+      phone_number:
+        description: 手机号
+        type: string
+      phone_number_verified:
+        description: 手机号是否验证
+        type: boolean
+      picture:
+        description: 头像
+        type: string
+      profile:
+        description: 个人信息主页
+        type: string
+      status:
+        description: other
+        type: integer
+      time_zone:
+        description: 时区
+        type: string
+      user_metadata:
+        description: metadata
+        type: array
+        items:
+          type: integer
+      username:
+        description: 用户名
+        type: string
+      website:
+        description: 个人blog，官网等
+        type: string
+  types.UserQueryRolesItemResp:
+    type: object
+    properties:
+      created_at:
+        description: 创建时间
+        type: string
+      description:
+        description: 描述
+        type: string
+      id:
+        type: string
+      name:
+        description: 名字
+        type: string
+  types.UserRoleInfoResp:
+    type: object
+    properties:
+      created_at:
+        type: string
+      description:
+        type: string
+      name:
+        type: string
+      role_id:
+        type: string
+  types.ZoneCreateReq:
+    type: object
+    required:
+      - slug
+    properties:
+      description:
+        type: string
+      slug:
+        type: string
+  types.ZoneEditBasicReq:
+    type: object
+    required:
+      - logo
+      - name
+    properties:
+      description:
+        type: string
+      logo:
+        description: logo
+        type: string
+      name:
+        description: 别名
+        type: string
+  types.ZoneExistsReq:
+    type: object
+    required:
+      - slug
+    properties:
+      slug:
+        type: string
+  types.ZoneExistsResp:
+    type: object
+    properties:
+      exists:
+        type: boolean
+  types.ZoneInfoBasicResp:
+    type: object
+    properties:
+      description:
+        type: string
+      logo:
+        description: logo
+        type: string
+      name:
+        description: 别名
+        type: string
+      slug:
+        description: slug
+        type: string
+  types.ZoneInfoMemberItemResp:
+    type: object
+    properties:
+      email:
+        description: 邮箱
+        type: string
+      is_creator:
+        description: 是否是创建者，如果是创建者，不允许对该成员做删除操作
+        type: boolean
+      nickname:
+        description: 用户昵称
+        type: string
+      picture:
+        description: 用户头像
+        type: string
+      roles:
+        description: >-
+          用户角色 admin editor:apps editor:identity editor:users viewer:users
+          viewer:config
+        type: array
+        items:
+          type: string
+      user_id:
+        description: 用户id
+        type: string
+      username:
+        description: 用户名
+        type: string
+  types.ZoneInfoSecretsResp:
+    type: object
+    properties:
+      cert_id:
+        description: 证书sha1,也就是证书id
+        type: string
+      cert_pem:
+        description: 证书
+        type: string
+      next_cert_id:
+        description: 下一个证书sha1，也就是证书id
+        type: string
+      next_cert_pem:
+        description: 下一个证书
+        type: string
+      revoke_secrets:
+        description: 吊销的证书
+        type: array
+        items:
+          $ref: '#/definitions/types.ZoneRevokeSecretItem'
+  types.ZoneListItemResp:
+    type: object
+    properties:
+      default:
+        description: 是否默认
+        type: boolean
+      description:
+        type: string
+      id:
+        type: string
+      logo:
+        description: logo
+        type: string
+      name:
+        type: string
+      slug:
+        type: string
+  types.ZoneRevokeSecretItem:
+    type: object
+    properties:
+      created_at:
+        description: 吊销时间
+        type: string
+      secret_id:
+        description: 密钥id
+        type: string
+  types.ZoneStateResp:
+    type: object
+    properties:
+      default:
+        description: 是否默认
+        type: boolean
+      description:
+        type: string
+      id:
+        type: string
+      logo:
+        description: logo
+        type: string
+      name:
+        description: 别名
+        type: string
+      public_key:
+        type: string
+      roles:
+        description: 空间角色
+        type: array
+        items:
+          type: string
+      slug:
+        description: slug
+        type: string
