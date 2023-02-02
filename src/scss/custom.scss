@@ -233,3 +233,15 @@ main {
     padding: var(--ifm-navbar-padding-horizontal) _.unit(3);
   }
 }
+
+// API
+.scrollbar-container {
+  & > [role="menu"] {
+    padding-bottom: unset!important;
+  }
+
+  ul[role=menu]+div {
+    position: unset!important;
+    width: 100%!important;
+  }
+}

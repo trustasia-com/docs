@@ -80,7 +80,7 @@ const config = {
         // Plugin Options for loading OpenAPI files
         specs: [
           {
-            spec: 'static/swagger.json',
+            spec: 'src/pages/api/swagger.json',
             id: 'using-custom-page',
           },
         ],

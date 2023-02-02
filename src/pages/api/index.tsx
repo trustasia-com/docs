@@ -9,8 +9,8 @@ function CustomPage() {
   return (
     <ApiDoc
       layoutProps={{
-        title: `Custom page for`,
-        description: "Example showcasing custom page",
+        title: `API`,
+        description: "WeKey OpenAPI",
       }}
       specProps={specData}
     />
