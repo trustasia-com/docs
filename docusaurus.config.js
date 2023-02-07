@@ -165,6 +165,11 @@ const config = {
       colorMode: {
         respectPrefersColorScheme: true,
       },
+      algolia: {
+        appId: 'MIY0JGFW3V',
+        apiKey: '35f2f877765783ed7a47925b5b1784e7',
+        indexName: 'wekey',
+      },
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
