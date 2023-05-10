@@ -20,5 +20,5 @@ $ yarn add @trustasia/js-sdk
 
 Browser
 ```
-<script src="https://static.wekey.com/sdk/js-sdk-1.3.4.js"></script>
+<script src="https://static.wekey.com/sdk/js-sdk-1.3.5.js"></script>
 ```
