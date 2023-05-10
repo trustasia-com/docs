@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[4121],{8070:e=>{e.exports=JSON.parse('[{"label":"s/mime","permalink":"/tags/s-mime","count":1},{"label":"email","permalink":"/tags/email","count":1}]')}}]);
